@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Vue js Chapter 1</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <style>
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="app">
+    <div class="container">
+      <form v-show="!submitted" class="mt-5">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" v-model="email" class="form-control form-control-lg">
+        </div>
+        <button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
+      </form>
+      <h2 v-show="submitted" v-cloak class="mt-5">Thank you signing up</h2>
+    </div>
+  </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+  let vm = new Vue({
+    el:'#app',
+    data:{
+      email:'andrew_young17@icloud.com',
+      submitted:false
+    },
+    methods:{
+      process: function(){
+        this.submitted = true
+      }
+    }
+  })
+</script>
+</body>
+
+</html>

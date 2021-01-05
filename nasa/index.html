@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Mars Rover Images</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <style>
+    body{
+      background-image: url("background.jpg");
+      background-size: cover;
+    }
+    h1{
+      color: #eee;
+    }
+    img{
+      width:500px;
+      height: auto;
+    }
+    h2{
+      color: #ffba69;
+    }
+    input{
+      width: 175px;
+      text-align: center;
+      border-radius: 5px;
+      border: solid #333 1px;
+      height: 50px;
+    }
+    .btn{
+      background-color: #FFBA69;
+    }
+    span{
+      color: #eee;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="container text-center">
+      <h1>Search Mars Rover Images by Sol</h1>
+      <input type="number" :placeholder="title" v-model="sol">
+      <br>
+      <button type="submit" @keyup.enter="fetchMarsPhotos" @click.prevent="fetchMarsPhotos" class="btn my-4">Submit</button>
+      <br>
+      <img :src="imgSrc" :title="imgTitle">
+      <h2>{{imgTitle}}</h2>
+      <span>Date Taken: {{earthDate}}</span>
+    </div>
+  </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+
+  let vm = new Vue({
+    el:'#app',
+    data:{
+      imgSrc:'',
+      imgTitle:'',
+      earthDate:'',
+      sol:'10',
+      title:'Enter a sol number'
+    },
+    created: function(){
+      this.fetchMarsPhotos();
+    },
+    methods:{
+      fetchMarsPhotos: function (){
+        let sol = this.sol;
+        let apiKey = 'bQFxdZYti65dK6SpO7Od5Gm7ZNnOlUpkkrifBGlO';
+        let url = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol='+ sol +'&api_key=' + apiKey;
+        axios.get(url)
+            .then(function (res){
+              vm.imgSrc = res.data.photos[2].img_src;
+              vm.imgTitle = res.data.photos[2].camera.full_name;
+              vm.earthDate = res.data.photos[2].earth_date;
+              console.log(res);
+            })
+      }
+    }
+  });
+</script>
+</body>
+
+</html>
